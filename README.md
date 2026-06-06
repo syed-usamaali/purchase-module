@@ -42,18 +42,75 @@ We would like to extend our thanks to the following sponsors for funding Laravel
 - **[Redberry](https://redberry.international/laravel-development)**
 - **[Active Logic](https://activelogic.com)**
 
-## Contributing
+## Project Setup
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+1. Copy environment file:
+   ```bash
+   cp .env.example .env
+   ```
+2. Install dependencies:
+   ```bash
+   composer install
+   npm install
+   ```
+3. Generate application key:
+   ```bash
+   php artisan key:generate
+   ```
+4. Run migrations and seeders:
+   ```bash
+   php artisan migrate
+   php artisan db:seed
+   ```
+5. Start the application:
+   ```bash
+   php artisan serve
+   ```
 
-## Code of Conduct
+## What is implemented
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+- Laravel 12 application with a Livewire purchase entry module.
+- Dynamic purchase rows with item, brand, quantity, and price.
+- Alpine.js reactive total calculation using Livewire entangle.
+- Role-based access control with Admin and User roles.
+- Legacy data import with idempotent duplicate prevention.
+- Secure PHP MySQLi bugfix example.
 
-## Security Vulnerabilities
+## Usage
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- Login at `/login`.
+- Open the purchase module at `/purchases`.
+- Admin users can create, edit, delete purchases and import legacy data.
+- Regular users can only view the purchase list.
+
+## Seeded users
+
+- Admin: `admin@example.com` / `password`
+- User: `user@example.com` / `password`
+
+## Legacy import
+
+The legacy import is implemented in `database/seeders/LegacyPurchaseSeeder.php`.
+It maps legacy `item_name` and `brand_name` into normalized tables and inserts purchases without duplicates.
+
+Run manually:
+
+```bash
+php artisan db:seed --class=LegacyPurchaseSeeder
+```
+
+## PHP MySQLi bug fix
+
+See `legacy-mysqli-fix.php` for the corrected secure version.
+
+## Assumptions
+
+- User roles are stored in `users.role`.
+- Admin role can manage data and run legacy import.
+- User role can only view purchases.
+- No hardcoded IDs are used in business logic.
+- Validation is performed on Livewire input and server-side requests.
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+The application is provided under the MIT license.
